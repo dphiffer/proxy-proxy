@@ -9,7 +9,7 @@ function init()
     }
     else
     {
-      $("message").set("value", JSON.parse(event.data).message);
+      $("message").value = JSON.parse(event.data).message;
     }
   }, false);
 
@@ -17,6 +17,6 @@ function init()
     var data = {
       message: $("message").value
     };
-    window.parent.postMessage(JSON.stringify(data), "http://localhost");
+    top.postMessage(JSON.stringify(data), "http://localhost");
   });
 }

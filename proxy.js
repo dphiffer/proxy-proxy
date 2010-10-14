@@ -4,13 +4,14 @@ function init()
 {
   console.log("init");
   window.addEventListener("message", function(event) {
+    console.log('receiving');
     if(event.origin !== "http://localhost")
     {
       console.log("Message from unexpected origin", event.origin);
     }
     else
     {
-      $("message").set("value", JSON.parse(event.data).message);
+      $("message").value = JSON.parse(event.data).message;
     }
   }, false);
 
@@ -19,6 +20,6 @@ function init()
     var data = {
       message: $("message").value
     };
-    $("unsafe").contentWindow.postMessage(JSON.stringify(data), "http://localhost");
+    $("unsafe").contentWindow.postMessage(JSON.stringify(data), "*");
   });
 }
