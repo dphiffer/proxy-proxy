@@ -1,25 +1,24 @@
 window.addEvent("domready", init);
 
-var data = {
-  foo: "bar"
-};
-
 function init()
 {
   console.log("init");
-  window.addEventListener("message", function(evt) {
-    if(event.origin !== "http://127.0.0.1")
+  window.addEventListener("message", function(event) {
+    if(event.origin !== "http://localhost")
     {
       console.log("Message from unexpected origin", event.origin);
     }
     else
     {
-      $("message").set("value", JSON.parse(evt.data).foo);
+      $("message").set("value", JSON.parse(event.data).message);
     }
   }, false);
 
-  $("safe-button").addEvent("click", function(evt) {
+  $("safe-button").addEvent("click", function(event) {
     console.log("sending");
-    $("unsafe").contentWindow.postMessage(JSON.stringify(data), "http://127.0.0.1/~davidnolen/proxy-proxy/unsafe.html");
+    var data = {
+      message: $("message").value
+    };
+    $("unsafe").contentWindow.postMessage(JSON.stringify(data), "http://localhost");
   });
 }
